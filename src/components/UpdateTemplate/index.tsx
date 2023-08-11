@@ -14,11 +14,13 @@ import { useRecord } from '@/utils/recordData';
 type UpdateTemplateProp = {
   id: number;
   recordDetailData: recordDetailType;
+  saveHandler: () => void;
 };
 
 export default function UpdateTemplate({
   id,
   recordDetailData,
+  saveHandler,
 }: UpdateTemplateProp) {
   const { recordListData, mutate: mutateTitle } = useRecord();
   const toast = useToast();
@@ -139,6 +141,8 @@ export default function UpdateTemplate({
         true
       );
     }
+
+    saveHandler();
   };
 
   const questionsListHandler = useCallback(

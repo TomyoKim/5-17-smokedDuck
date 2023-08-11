@@ -17,7 +17,12 @@ type RecordCardProps = {
 
 export default function RecordCard({ title, id }: RecordCardProps) {
   const [isSmallScreen] = useMediaQuery('(min-height: 800px)');
-  const { setSeletedRecordCardId, setIsRecordEdit } = useContext(MainContext);
+  const {
+    setSeletedRecordCardId,
+    setIsRecordEdit,
+    setSelectedTemplateTitle,
+    setSelectedRecordCard,
+  } = useContext(MainContext);
   const [recordTemplateOpen, setRecordTemplateOpen] = useState(false);
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
@@ -25,6 +30,14 @@ export default function RecordCard({ title, id }: RecordCardProps) {
     setRecordTemplateOpen(true);
     setSeletedRecordCardId(id);
     setIsRecordEdit(false);
+  };
+
+  const saveHandler = () => {
+    setTimeout(() => {
+      setEditModalOpen(false);
+      setSelectedTemplateTitle('');
+      setSelectedRecordCard(undefined);
+    }, 500);
   };
 
   return (
@@ -58,7 +71,7 @@ export default function RecordCard({ title, id }: RecordCardProps) {
           height={isSmallScreen ? 900 : undefined}
           showConfirmationAlert={true}
         >
-          <RecordInfo id={id} isEditing={true} />
+          <RecordInfo id={id} isEditing={true} saveHandler={saveHandler} />
         </Modal>
       )}
       {deleteModalOpen && (

@@ -8,12 +8,24 @@ import Template from '@/components/Template';
 import { MainContext } from '@/store';
 
 export default function Record() {
-  const { recordModalOpen, setRecordModalState, selectedTemplateTitle } =
-    useContext(MainContext);
+  const {
+    recordModalOpen,
+    setRecordModalState,
+    selectedTemplateTitle,
+    setQuestionList,
+    setSelectedTemplateTitle,
+  } = useContext(MainContext);
 
   const [templateCategory, setTemplateCategory] = useState('INTERVIEW');
   const [isSmallScreen] = useMediaQuery('(min-height: 800px)');
 
+  const modalStatehandler = () => {
+    setTimeout(() => {
+      setRecordModalState(false);
+      setSelectedTemplateTitle('');
+      setQuestionList([]);
+    }, 500);
+  };
   const changeListType = useCallback((type: string) => {
     setTemplateCategory(type);
   }, []);
@@ -40,7 +52,7 @@ export default function Record() {
             selectedTemplateTitle.length === 0 ? false : true
           }
         >
-          <Template />
+          <Template modalStatehandler={modalStatehandler} />
         </Modal>
       )}
     </>

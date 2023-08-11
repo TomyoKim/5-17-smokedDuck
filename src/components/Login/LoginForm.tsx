@@ -15,7 +15,7 @@ export default function LoginForm() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [centercode, setCentercode] = useState('');
-
+  const [error, setError] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [changeUser, setChangeUser] = useState(false);
 
@@ -33,10 +33,13 @@ export default function LoginForm() {
     async (event: React.FormEvent<HTMLFormElement>) => {
       event.preventDefault();
 
-      const response = await requestLogin(username, password);
-
-      if (response?.status === 200) {
-        navigate('/record');
+      try {
+        const response = await requestLogin(username, password);
+        if (response?.status === 200) {
+          navigate('/record');
+        }
+      } catch (error) {
+        setError(true);
       }
     },
     [username, password, navigate]
@@ -107,6 +110,7 @@ export default function LoginForm() {
           비밀번호 찾기
         </span>
       </StyledFind>
+      {error && <ErrorMsg>잘못된 비밀번호입니다.</ErrorMsg>}
       <StyledSignup>
         <span>포인티 계정이 없으세요? | </span>
         <span onClick={() => alert('회원가입 페이지입니다.')}>회원가입</span>
@@ -173,11 +177,12 @@ const StyledFind = styled.div`
   color: #505050;
   margin-right: 192px;
   cursor: pointer;
+  margin-bottom: 94px;
 `;
 
 const StyledSignup = styled.div`
   color: #505050;
-  margin-top: 94px;
+  margin-top: 1rem;
   margin-bottom: 16px;
   & span:last-of-type {
     cursor: pointer;
@@ -197,4 +202,9 @@ const StyledLoginButton = styled.button`
       color: #fff;
       cursor: pointer;
     `}
+`;
+
+const ErrorMsg = styled.span`
+  color: red;
+  font-size: 14px;
 `;

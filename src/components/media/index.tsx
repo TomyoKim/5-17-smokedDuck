@@ -26,7 +26,7 @@ export default function Media() {
           height={640}
           title={'센터 링크 생성'}
           setIsOpen={setMediaModalState}
-          showConfirmationAlert={true}
+          showConfirmationAlert={false}
         >
           <div
             style={{
